@@ -1,8 +1,8 @@
 b-card
   b-card-title MetaMask
-    template(v-if="accounts.length===0")
+  b-card-body(v-if="!ethereum.selectedAddress")
       b-btn(variant="primary" @click="requestAccounts") requestAccounts
-  b-card-body(v-if="ethereum.selectedAddress")
+  b-card-body(v-else)
     span Current Address: {{ethereum.selectedAddress|toChecksumAddress}}
     br
     b-icon(v-if="balance===null&&getBalance(ethereum.selectedAddress)" icon="arrow-clockwise" animation="spin-pulse")
