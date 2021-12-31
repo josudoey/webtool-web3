@@ -1,7 +1,21 @@
 .container-fluid.px-0
   nav.navbar.navbar-dark.bg-dark
     .navbar-brand.d-flex
-      div Webtool Template
+      div Webtool Web3
   .container-fluid.px-0
     b-card(no-body)
-      b-card-body template
+      b-card-title ethereum
+      b-card-body
+        b-btn(variant="primary" @click="requestAccounts") requestAccounts
+        b-btn(variant="primary" @click="getAccounts") getAccounts
+        b-btn(variant="primary" @click="getBalance") getBalance
+        b-form-input(v-model="transferToAddress" placeholder="to address")
+        b-form-input(v-model="transferValue" placeholder="value")
+        b-btn(variant="primary" @click="transfer(transferToAddress,transferValue)") transfer
+
+        b-form-input(v-model="message" placeholder="message")
+        b-btn(variant="primary" @click="personalSign(message)") personalSign
+
+    h5 account address
+    ul 
+      li(v-for="account in accounts") {{account}}
