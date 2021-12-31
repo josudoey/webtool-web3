@@ -1,0 +1,24 @@
+b-card
+  b-card-title MetaMask
+    template(v-if="accounts.length===0")
+      b-btn(variant="primary" @click="requestAccounts") requestAccounts
+  b-card-body(v-if="ethereum.selectedAddress")
+    span Current Address: {{ethereum.selectedAddress|toChecksumAddress}}
+    br
+    b-icon(v-if="balance===null&&getBalance(ethereum.selectedAddress)" icon="arrow-clockwise" animation="spin-pulse")
+    span(v-if="balance!==null") Balance: {{balance|ether}} Ether
+      b-btn.p-0(variant="primary" @click="getBalance(ethereum.selectedAddress)")
+        b-icon-arrow-repeat
+    b-form-input(v-model="transferToAddress" placeholder="to address")
+    b-form-input(v-model="transferEther" placeholder="transfer amount(ether)")
+    b-btn(variant="primary" @click="transfer(transferToAddress,transferEther)") transfer
+    b-alert(v-if="transactionHash" show) tx hash: {{transactionHash}}
+    hr
+    b-form-textarea(v-model="message" placeholder="message")
+    b-btn(variant="primary" @click="personalSign(message)") personalSign
+    b-alert(v-if="messageSignature" show) message signature: {{messageSignature}}
+    hr
+    b-form-textarea(v-model="recoverMessage" placeholder="recover message")
+    b-form-textarea(v-model="recoverSignature" placeholder="recover signature")
+    b-btn(variant="primary" @click="personalRecover(recoverMessage,recoverSignature)") personalRecover
+    b-alert(v-if="recoverAddress" show) recover address: {{recoverAddress}}
