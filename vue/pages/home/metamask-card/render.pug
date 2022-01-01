@@ -1,4 +1,4 @@
-b-card
+b-card(style="max-width:400px;")
   b-card-title MetaMask
   b-card-body(v-if="!ethereum.selectedAddress")
       b-btn(variant="primary" @click="requestAccounts") requestAccounts
@@ -9,16 +9,14 @@ b-card
     span(v-if="balance!==null") Balance: {{balance|ether}} Ether
       b-btn.p-0(variant="primary" @click="getBalance(ethereum.selectedAddress)")
         b-icon-arrow-repeat
-    b-form-input(v-model="transferToAddress" placeholder="to address")
-    b-form-input(v-model="transferEther" placeholder="transfer amount(ether)")
-    b-btn(variant="primary" @click="transfer(transferToAddress,transferEther)") transfer
+    b-form-input(v-model="transactionToAddress" placeholder="to address")
+    b-form-input(v-model="transactionEther" placeholder="send amount(ether)")
+    b-form-textarea(v-model="transactionData" placeholder="data(option)")
+    b-btn(variant="primary" @click="sendTransaction(transactionToAddress,transactionEther,transactionData)") sendTransaction
     b-alert(v-if="transactionHash" show) tx hash: {{transactionHash}}
+    b-btn(variant="primary" @click="call(transactionToAddress,transactionEther,transactionData)") call
+    b-alert(v-if="returnData" show) return data: {{returnData}}
     hr
     b-form-textarea(v-model="message" placeholder="message")
     b-btn(variant="primary" @click="personalSign(message)") personalSign
     b-alert(v-if="messageSignature" show) message signature: {{messageSignature}}
-    hr
-    b-form-textarea(v-model="recoverMessage" placeholder="recover message")
-    b-form-textarea(v-model="recoverSignature" placeholder="recover signature")
-    b-btn(variant="primary" @click="personalRecover(recoverMessage,recoverSignature)") personalRecover
-    b-alert(v-if="recoverAddress" show) recover address: {{recoverAddress}}

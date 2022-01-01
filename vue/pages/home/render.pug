@@ -2,9 +2,10 @@
   nav.navbar.navbar-dark.bg-dark
     .navbar-brand.d-flex
       div Webtool Web3
-  .container-fluid.px-0
+  .container-fluid.px-0.d-flex.flex-wrap
     metamask-card(v-if="ethereum&&ethereum.isMetaMask")
     a(v-else href="https://metamask.io/")
       img(src="https://metamask.io/images/mm-logo.svg")
       | Install
-    //- https://remix.ethereum.org/
+    ecrecover-card
+    abi-card

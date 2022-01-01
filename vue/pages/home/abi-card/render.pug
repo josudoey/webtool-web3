@@ -1,0 +1,13 @@
+b-card
+  b-card-title Contract ABI
+    a.ml-1.small(href="https://remix.ethereum.org/") reminx
+  b-card-body
+    b-form-textarea(v-model="abiRaw" placeholder="Contract ABI")
+    b-btn(variant="primary" @click="parse") parse
+    .m-1(v-if="abi.length")
+      method-card(
+        v-for="method in abi"
+        :key="uniqueId()"
+        :method="method"
+        v-if="method.type==='function'"
+    )

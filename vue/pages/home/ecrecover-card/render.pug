@@ -1,0 +1,7 @@
+b-card(style="max-width:400px;")
+  b-card-title EcRecover
+  b-card-body
+    b-form-textarea(v-model="recoverMessage" placeholder="recover message")
+    b-form-textarea(v-model="recoverSignature" placeholder="recover signature")
+    b-btn(variant="primary" @click="personalRecover(recoverMessage,recoverSignature)") personalRecover
+    b-alert(v-if="recoverAddress" show) recover address: {{recoverAddress|toChecksumAddress}}

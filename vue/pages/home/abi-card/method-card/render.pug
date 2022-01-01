@@ -1,0 +1,9 @@
+b-card
+  b-input-group(:prepend="name")
+    b-form-input(v-model="values[index]" v-for="input,index in inputs" :key="uniqueId()" :placeholder="inputPlaceholderDisplay(input)")
+    b-input-group-append
+      b-btn(variant="primary" @click="encode") encode
+  b-alert(v-if="encodeResult" show) {{encodeResult}}
+  b-form-textarea(v-model="returnData" placeholder="return data")
+  b-btn(v-if="returnData" variant="primary" @click="decode") decode
+  b-alert(v-if="decodeResult" show) {{decodeResult}}

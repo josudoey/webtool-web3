@@ -1,11 +1,15 @@
 import MetamaskCard from './metamask-card/index.mjs'
+import EcrecoverCard from './ecrecover-card/index.mjs'
+import AbiCard from './abi-card/index.mjs'
 import { render, staticRenderFns } from './render.pug'
 
 export default {
   render,
   staticRenderFns,
   components: {
-    MetamaskCard
+    MetamaskCard,
+    EcrecoverCard,
+    AbiCard
   },
   provide () {
     const ctx = {}
@@ -24,7 +28,7 @@ export default {
     }
   },
   mounted () {
-    // see https://web3js.readthedocs.io/en/v1.5.2/getting-started.html#adding-web3-js
+    // see https://docs.metamask.io/guide/getting-started.html#basic-considerations
     this.ethereum = window.ethereum
   },
   updated () {
