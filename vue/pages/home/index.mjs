@@ -14,11 +14,12 @@ export default {
   },
   provide () {
     const preserveSave = function (key, state) {
-      window.localStorage.setItem(key, JSON.stringify(state))
+      const preservation = JSON.stringify(state)
+      window.localStorage.setItem(key, preservation)
     }
     const preserveRestore = function (key, data) {
-      const preserve = window.localStorage.getItem(key)
-      Object.assign(data, JSON.parse(preserve))
+      const preservation = window.localStorage.getItem(key)
+      Object.assign(data, JSON.parse(preservation))
     }
     const preserveData = function (key, vm, names) {
       const { $data } = vm
