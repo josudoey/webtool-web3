@@ -22,14 +22,10 @@ export default {
     // for ethjs-abi Buffer
     window.Buffer = Buffer
   },
-  updated () {
-  },
-  filters: {
-  },
   methods: {
     uniqueId,
-    inputPlaceholderDisplay (input) {
-      return `${input.name} (${input.type})`
+    methodPlaceholderDisplay (method) {
+      return `${method.name} (${method.type})`
     },
     encode () {
       const { method, values } = this

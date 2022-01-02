@@ -9,6 +9,8 @@ b-card(style="max-width:400px;")
     span(v-if="balance!==null") Balance: {{balance|ether}} Ether
       b-btn.p-0(variant="primary" @click="getBalance(ethereum.selectedAddress)")
         b-icon-arrow-repeat
+    br
+    b-btn(variant="secondary" @click="reset" size="sm") reset
     b-form-input(v-model="transactionToAddress" placeholder="to address")
     b-form-input(v-model="transactionEther" placeholder="send amount(ether)")
     b-form-textarea(v-model="transactionData" placeholder="data(option)")

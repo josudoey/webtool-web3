@@ -2,10 +2,18 @@ import unit from 'ethjs-unit'
 import { toChecksumAddress, stripHexPrefix } from '../utils.mjs'
 import { render, staticRenderFns } from './render.pug'
 
+const PreserveKey = 'metamask-card'
+const preservePropNames = [
+  'transactionToAddress',
+  'transactionEther',
+  'transactionData',
+  'message'
+]
+
 export default {
   render,
   staticRenderFns,
-  inject: ['ethereum'],
+  inject: ['ethereum', 'preserveRestore', 'preserveWatch'],
   data () {
     return {
       accounts: [],
@@ -19,8 +27,11 @@ export default {
       messageSignature: ''
     }
   },
-  async mounted () {
-    const { ethereum } = this
+  mounted () {
+    const { preserveRestore, preserveWatch, $data, ethereum } = this
+    preserveRestore(PreserveKey, $data)
+    preserveWatch(PreserveKey, this, preservePropNames)
+
     const self = this
     ethereum.on('accountsChanged', function (accounts) {
       const { selectedAddress } = ethereum
@@ -35,9 +46,7 @@ export default {
       self.getBalance(selectedAddress)
       // Time to reload your interface with accounts[0]!
     })
-    await this.getAccounts()
-  },
-  updated () {
+    this.getAccounts()
   },
   filters: {
     ether (wei) {
@@ -48,6 +57,14 @@ export default {
     }
   },
   methods: {
+    reset () {
+      Object.assign(this, {
+        transactionToAddress: '',
+        transactionEther: '',
+        transactionData: '',
+        transactionHash: ''
+      })
+    },
     async request (opts) {
       // see https://docs.metamask.io/guide/provider-migration.html#replacing-window-web3
       const { ethereum } = this
@@ -141,7 +158,7 @@ export default {
         console.log(returnData)
       } catch (err) {
         this.$bvToast.toast(err.message, {
-          title: '發送失敗',
+          title: '呼叫失敗',
           autoHideDelay: 3000,
           appendToast: true
         })

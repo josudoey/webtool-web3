@@ -1,6 +1,6 @@
 b-card
   b-input-group(:prepend="name")
-    b-form-input(v-model="values[index]" v-for="input,index in inputs" :key="uniqueId()" :placeholder="inputPlaceholderDisplay(input)")
+    b-form-input(v-model="values[index]" v-for="method,index in inputs" :key="uniqueId()" :placeholder="methodPlaceholderDisplay(method)")
     b-input-group-append
       b-btn(variant="primary" @click="encode") encode
   b-alert(v-if="encodeResult" show) {{encodeResult}}

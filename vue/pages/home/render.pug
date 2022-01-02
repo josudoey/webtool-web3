@@ -2,10 +2,14 @@
   nav.navbar.navbar-dark.bg-dark
     .navbar-brand.d-flex
       div Webtool Web3
-  .container-fluid.px-0.d-flex.flex-wrap
-    metamask-card(v-if="ethereum&&ethereum.isMetaMask")
-    a(v-else href="https://metamask.io/")
-      img(src="https://metamask.io/images/mm-logo.svg")
-      | Install
-    ecrecover-card
-    abi-card
+  .container-fluid.px-0
+    .row
+      .col-6.col-lg-3
+        metamask-card(v-if="ethereum&&ethereum.isMetaMask")
+        a(v-else href="https://metamask.io/")
+          img(src="https://metamask.io/images/mm-logo.svg")
+          | Install
+      .col-6.col-lg-3
+        ecrecover-card
+      .col-12.col-lg-6
+        abi-card
