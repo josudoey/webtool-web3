@@ -1,8 +1,6 @@
 import { render, staticRenderFns } from './render.pug'
-import ABI from 'ethjs-abi'
-import buffer from 'buffer'
 import { uniqueId } from 'lodash'
-const Buffer = buffer.Buffer
+import { defaultAbiCoder as abiCoder, FunctionFragment, toUtf8Bytes, keccak256 } from 'ethers/lib/utils.js'
 export default {
   render,
   staticRenderFns,
@@ -19,8 +17,6 @@ export default {
     }
   },
   mounted () {
-    // for ethjs-abi Buffer
-    window.Buffer = Buffer
   },
   methods: {
     uniqueId,
@@ -29,11 +25,18 @@ export default {
     },
     encode () {
       const { method, values } = this
-      this.encodeResult = ABI.encodeMethod(method, values)
+      const fragment = FunctionFragment.from(method)
+      // see https://www.4byte.directory/
+      const signatures = keccak256(toUtf8Bytes(fragment.format())).slice(0, 10)
+      const encodedParams = abiCoder.encode(method.inputs, values).slice(2)
+      this.encodeResult = `${signatures}${encodedParams}`
     },
     decode () {
       const { method, returnData } = this
-      this.decodeResult = ABI.decodeMethod(method, returnData)
+      const types = method.outputs.map(function (output) {
+        return output.type
+      })
+      this.decodeResult = abiCoder.decode(types, returnData)
     }
   }
 }

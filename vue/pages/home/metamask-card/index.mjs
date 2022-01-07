@@ -1,5 +1,5 @@
-import unit from 'ethjs-unit'
-import { toChecksumAddress, stripHexPrefix } from '../utils.mjs'
+import { BigNumber } from 'ethers'
+import { formatUnits, parseUnits, hexZeroPad, getAddress } from 'ethers/lib/utils.js'
 import { render, staticRenderFns } from './render.pug'
 
 const PreserveKey = 'metamask-card'
@@ -49,11 +49,11 @@ export default {
     this.getAccounts()
   },
   filters: {
-    ether (wei) {
-      return unit.fromWei(wei, 'ether')
+    ether (hex) {
+      return formatUnits(BigNumber.from(hex), 'ether')
     },
     toChecksumAddress (address) {
-      return toChecksumAddress(address)
+      return getAddress(address)
     }
   },
   methods: {
@@ -88,12 +88,10 @@ export default {
     },
     async getBalance (address) {
       // see https://eth.wiki/json-rpc/API#eth_getbalance
-      console.log('getBalance', address)
       const balance = this.balance = await this.request({
         method: 'eth_getBalance',
         params: [address, 'latest']
       })
-      console.log(address, balance)
       return balance
     },
     async sendTransaction (toAddress, ether, data) {
@@ -108,11 +106,11 @@ export default {
         }
 
         if (ether) {
-          const wei = unit.toWei(ether, 'ether')
-          transactionParameters.value = `0x${wei.toString(16)}`
+          const wei = parseUnits(ether, 'ether').toHexString()
+          transactionParameters.value = hexZeroPad(wei, 32)
         }
         if (data) {
-          transactionParameters.data = `0x${stripHexPrefix(data)}`
+          transactionParameters.data = data
         }
         console.log(transactionParameters)
 
@@ -143,11 +141,11 @@ export default {
         }
 
         if (ether) {
-          const wei = unit.toWei(ether, 'ether')
-          transactionParameters.value = `0x${wei.toString(16)}`
+          const wei = parseUnits(ether, 'ether').toHexString()
+          transactionParameters.value = hexZeroPad(wei, 32)
         }
         if (data) {
-          transactionParameters.data = `0x${stripHexPrefix(data)}`
+          transactionParameters.data = data
         }
         console.log(transactionParameters)
 

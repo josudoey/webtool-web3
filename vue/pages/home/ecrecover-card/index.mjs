@@ -1,6 +1,6 @@
-import { toChecksumAddress, personalRecover } from '../utils.mjs'
 import { pick } from 'lodash'
 import { render, staticRenderFns } from './render.pug'
+import { verifyMessage, getAddress } from 'ethers/lib/utils.js'
 const PreserveKey = 'ecrecover-card'
 const preservePropNames = [
   'recoverMessage', 'recoverSignature'
@@ -22,7 +22,9 @@ export default {
     preserveWatch(PreserveKey, this, preservePropNames)
   },
   filters: {
-    toChecksumAddress
+    toChecksumAddress (address) {
+      return getAddress(address)
+    }
   },
   methods: {
     preserveData () {
@@ -36,7 +38,7 @@ export default {
       }
     },
     async personalRecover (message, signature) {
-      this.recoverAddress = personalRecover(message, signature)
+      this.recoverAddress = verifyMessage(message, signature)
     }
   }
 }

@@ -1,6 +1,7 @@
 import { uniqueId } from 'lodash'
 import MethodCard from './method-card/index.mjs'
 import erc20Abi from './erc20-abi.mjs'
+
 import { render, staticRenderFns } from './render.pug'
 
 const PreserveKey = 'abi-card'
