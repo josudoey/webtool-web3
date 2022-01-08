@@ -28,8 +28,6 @@ export default {
     preserveRestore(PreserveKey, $data)
     preserveWatch(PreserveKey, this, preservePropNames)
   },
-  filters: {
-  },
   methods: {
     uniqueId,
     setErc20Abi () {
@@ -37,7 +35,17 @@ export default {
     },
     parse () {
       const { abiRaw } = this
-      this.abi = JSON.parse(abiRaw)
+      try {
+        this.abi = JSON.parse(abiRaw)
+      } catch (err) {
+        this.$bvToast.toast(err.message, {
+          variant: 'danger',
+          title: '執行失敗',
+          autoHideDelay: 3000,
+          appendToast: true
+        })
+        throw err
+      }
     }
   }
 }

@@ -37,8 +37,18 @@ export default {
         this.$watch(name, preserveData)
       }
     },
-    async personalRecover (message, signature) {
-      this.recoverAddress = verifyMessage(message, signature)
+    personalRecover (message, signature) {
+      try {
+        this.recoverAddress = verifyMessage(message, signature)
+      } catch (err) {
+        this.$bvToast.toast(err.message, {
+          variant: 'danger',
+          title: '驗證失敗',
+          autoHideDelay: 3000,
+          appendToast: true
+        })
+        throw err
+      }
     }
   }
 }

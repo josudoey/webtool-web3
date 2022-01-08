@@ -1,4 +1,4 @@
-import pick from 'lodash'
+import { pick } from 'lodash'
 import MetamaskCard from './metamask-card/index.mjs'
 import EcrecoverCard from './ecrecover-card/index.mjs'
 import AbiCard from './abi-card/index.mjs'

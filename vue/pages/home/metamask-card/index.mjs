@@ -122,11 +122,12 @@ export default {
         console.log(transactionHash)
       } catch (err) {
         this.$bvToast.toast(err.message, {
+          variant: 'danger',
           title: '發送失敗',
           autoHideDelay: 3000,
           appendToast: true
         })
-        console.log(err)
+        throw err
       }
     },
     async call (toAddress, ether, data) {
@@ -149,18 +150,18 @@ export default {
         }
         console.log(transactionParameters)
 
-        const returnData = this.returnData = await this.request({
+        this.returnData = await this.request({
           method: 'eth_call',
           params: [transactionParameters, 'latest']
         })
-        console.log(returnData)
       } catch (err) {
         this.$bvToast.toast(err.message, {
+          variant: 'danger',
           title: '呼叫失敗',
           autoHideDelay: 3000,
           appendToast: true
         })
-        console.log(err)
+        throw err
       }
     },
     async personalSign (message, address) {
@@ -170,10 +171,7 @@ export default {
       const payload = {
         method: 'personal_sign', params: [message, address]
       }
-      console.log(payload)
-
-      const signature = this.messageSignature = await ethereum.request(payload)
-      console.log(signature)
+      this.messageSignature = await ethereum.request(payload)
     }
   }
 }
